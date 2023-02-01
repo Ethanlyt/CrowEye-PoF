@@ -20,3 +20,6 @@ This AI solution based uses a deep learning trained model API
 ## Usage
 - Run the app by running `python app.py`
 - Open the browser and hosted localhost
+
+## Credited to
+- [BAIDU](https://cloud.baidu.com/)
