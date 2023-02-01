@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" style="display: block; overflow: visible; position: sticky">
+	<head>
+		<meta charset="utf-8" />
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+		/>
+		<title>CrowEye</title>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"
+		/>
+		<link
+			rel="stylesheet"
+			src="../assets/css/Navbar-Centered-Brand-Dark-icons.css"
+		/>
+	</head>
+
+	<body
+		style="
+			background: url('https://cdn.pixabay.com/photo/2020/11/12/14/48/fantasy-5735716_960_720.jpg')
+				no-repeat;
+			background-size: cover;
+			height: 800px;
+		"
+	>
+		<nav
+			class="navbar navbar-dark navbar-expand-md bg-dark py-3"
+			style="position: static"
+		>
+			<div class="container">
+				<a class="navbar-brand d-flex align-items-center" href="#"
+					><span
+						class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"
+						style="background: var(--bs-black);
+							width: 32px;
+							height: 32px;
+							border-radius: 8px;"
+						><i class="fas fa-crow"></i></span
+					><span>CrowEye</span></a
+				><button
+					data-bs-toggle="collapse"
+					class="navbar-toggler"
+					data-bs-target="#navcol-6"
+				>
+					<span class="visually-hidden">Toggle navigation</span
+					><span class="navbar-toggler-icon"></span>
+				</button>
+				<div
+					class="collapse navbar-collapse flex-grow-0 order-md-first"
+					id="navcol-6"
+				>
+					<ul class="navbar-nav me-auto">
+						<li class="nav-item">
+							<a class="nav-link active" href="/">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/location"
+								>Location(TBA)</a
+							>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- End: Navbar Centered Brand (Dark) -->
+		<div class="d-flex flex-column">
+			<div class="align-self-center p-3">
+				<button
+					id="camera_activate"
+					class="btn btn-secondary"
+					type="button"
+				>
+					Open Camera to Calculate Crowd
+				</button>
+			</div>
+			<div class="card w-75 align-self-center p-3">
+				<div class="align-self-center">
+					<h3>Location : <b>Bilik Ethan</b></h3>
+					<h4>Capacity : <b>0-10 people</b></h4>
+				</div>
+			</div>
+			<div class="card w-50 align-self-center p-3 mt-4 opacity-75">
+				<div class="align-self-center">
+					<h4><u>Venue Status</u></h4>
+				</div>
+				<div class="align-self-center">
+					<h4 id="result" class="p-3 border rounded-pill text-center">
+						Please click 'Open Camera to Calculate Crowd'
+					</h4>
+					<p
+						id="density-rate"
+						class="p-2 border rounded-pill bg-info text-center"
+					></p>
+				</div>
+			</div>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+		<script>
+			var density;
+			var num_people, people_in, people_out;
+			function densityLevel() {
+				if (density >= 100) {
+					document.getElementById("result").style.background = "red";
+					document.getElementById("result").innerHTML = "High";
+					document.getElementById("density-rate").innerHTML =
+						density + "% occupied";
+				} else if (density >= 50 && density < 100) {
+					document.getElementById("result").style.background =
+						"yellow";
+					document.getElementById("result").innerHTML = "Medium";
+					document.getElementById("density-rate").innerHTML =
+						density + "% occupied";
+				} else {
+					document.getElementById("result").style.background =
+						"green";
+					document.getElementById("result").innerHTML = "Low";
+					document.getElementById("density-rate").innerHTML =
+						density + "% occupied";
+				}
+			}
+
+			document
+				.getElementById("camera_activate")
+				.addEventListener("click", function () {
+					fetch("/calculate")
+						.then((response) => response.text())
+						.then((data) => {
+							density = data;
+							console.log(density);
+							document.getElementById("result").innerHTML = data;
+						})
+						.then(densityLevel);
+				});
+		</script>
+	</body>
+</html>
